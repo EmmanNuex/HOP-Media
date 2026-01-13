@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOP-DCC Media Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="login-screen" class="container">
+        <div class="card shadow-lg w-100" style="max-width: 380px; border-top: 6px solid #ffc107; border-radius: 15px;">
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <img src="https://www.pngfind.com/pngs/m/153-1530242_the-christ-apostolic-church-hd-png-download.png" class="logo-login" style="width: 80px; height: 80px; margin-bottom: 10px;">
+                    <h4 class="fw-bold mb-0" style="color: #1a237e;">HOP-DCC <span class="text-warning">MEDIA</span></h4>
+                    <p class="text-muted small mt-1">Personnel Authentication Portal</p>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="small fw-bold text-uppercase" style="font-size: 0.7rem; color: #666;">Full Name</label>
+                    <input type="text" id="loginName" class="form-control form-control-lg shadow-sm" style="font-size: 0.9rem;" placeholder="Enter Name">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="small fw-bold text-uppercase" style="font-size: 0.7rem; color: #666;">Access Code</label>
+                    <input type="password" id="loginKey" class="form-control form-control-lg shadow-sm" style="font-size: 0.9rem;" placeholder="Enter Code">
+                </div>
+                
+                <button onclick="memberLogin()" class="btn btn-primary w-100 fw-bold shadow-sm py-2 mb-2" style="background-color: #1a237e;">
+                    VERIFY & ENTER
+                </button>
+            </div>
+
+            <div class="card-footer bg-light border-0 p-3 text-center" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+                <p class="fst-italic text-muted mb-2" style="font-size: 0.75rem; line-height: 1.4;">
+                    "Capturing the move of God, preserving the word, and projecting the gospel to the ends of the earth through digital excellence."
+                </p>
+                <div class="fw-bold text-primary text-uppercase" style="font-size: 0.6rem; letter-spacing: 1px;">
+                    HOP-DCC Media Department
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-dashboard" class="container py-3" style="display: none;">
+        
+        <div class="header-container rounded shadow-sm d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center">
+                <img src="https://www.pngfind.com/pngs/m/153-1530242_the-christ-apostolic-church-hd-png-download.png" class="logo-dash me-2">
+                <div>
+                    <h6 class="mb-0 fw-bold">HOP-DCC <span class="text-warning">MEDIA</span></h6>
+                    <span id="user-welcome" class="text-muted fw-bold small"></span>
+                </div>
+            </div>
+            <div class="text-end">
+                <button onclick="location.reload()" class="btn btn-sm btn-outline-danger mb-1 px-3">LOGOUT</button>
+                <div id="current-time" class="fw-bold text-primary" style="font-size: 0.75rem;"></div>
+            </div>
+        </div>
+
+        <div class="card mb-3 bg-primary text-white p-3 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0 fw-bold small text-uppercase">Sunday Dress Code</h6>
+                <button class="btn btn-xs btn-light auth-required" onclick="updateDressCalendar()" style="display:none">UPDATE</button>
+            </div>
+            <div id="dressCalendar" class="row gx-2"></div>
+        </div>
+
+        <div id="poll-section" class="card shadow-sm mb-3 border-start border-4 border-info" style="display: none;">
+            <div class="card-header bg-white d-flex justify-content-between py-2">
+                <h6 class="mb-0 fw-bold small text-info text-uppercase">Live Team Poll</h6>
+                <button class="btn btn-xs btn-outline-danger auth-required" onclick="deletePoll()" style="display:none">END</button>
+            </div>
+            <div class="card-body p-3">
+                <p id="poll-question" class="fw-bold small mb-2"></p>
+                <button onclick="castVote('optA')" class="btn btn-outline-primary w-100 mb-2 d-flex justify-content-between btn-sm">
+                    <span id="labelA"></span> <span id="percentA" class="badge bg-primary">0%</span>
+                </button>
+                <button onclick="castVote('optB')" class="btn btn-outline-primary w-100 d-flex justify-content-between btn-sm">
+                    <span id="labelB"></span> <span id="percentB" class="badge bg-primary">0%</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="card mb-3 shadow-sm">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center py-2">
+                <h6 class="mb-0 fw-bold small text-uppercase">Schedule</h6>
+                <div class="admin-controls">
+                    <button class="btn btn-xs btn-outline-warning auth-required" onclick="createNewPoll()" style="display:none">+ POLL</button>
+                    <button class="btn btn-xs btn-outline-warning auth-required" onclick="setLiveNotice()" style="display:none">+ NTCE</button>
+                    <button class="btn btn-xs btn-warning auth-required" onclick="addNewProgram()" style="display:none">+ PRG</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table mb-0 small"><tbody id="fullRoster"></tbody></table>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center py-2">
+                <h6 class="mb-0 fw-bold small text-uppercase">Observations</h6>
+                <button class="btn btn-xs btn-primary" onclick="toggleCommentForm()">+ NEW IDEA</button>
+            </div>
+            <div id="commentFormSection" class="p-2 border-bottom" style="display:none;">
+                <textarea id="commentText" class="form-control form-control-sm mb-2" rows="2" placeholder="Write observation..."></textarea>
+                <button onclick="submitComment()" class="btn btn-sm btn-primary w-100">SUBMIT</button>
+            </div>
+            <div id="commentList" class="p-2" style="max-height: 180px; overflow-y: auto;"></div>
+        </div>
+
+        <div class="card shadow-sm mb-5">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="mb-0 fw-bold small text-uppercase">Directory (<span id="totalMembers">0</span>)</h6>
+                    <button class="btn btn-xs btn-primary auth-required" onclick="addTeamMember()" style="display:none">+ ADD</button>
+                </div>
+                <input type="text" id="memberSearch" class="form-control form-control-sm" placeholder="Search name..." onkeyup="filterTeam()">
+            </div>
+            <ul id="directoryList" class="list-group list-group-flush"></ul>
+        </div>
+    </div>
+
+    <div id="live-notice-bar" style="display: none;">
+        <div class="container d-flex justify-content-between align-items-center small">
+            <div class="text-truncate fw-bold">📢 <span id="notice-text"></span></div>
+            <button class="btn btn-xs btn-light text-danger auth-required" onclick="clearNotice()" style="display:none">CLEAR</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
