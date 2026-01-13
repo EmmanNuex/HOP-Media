@@ -122,7 +122,7 @@ function initDashboard() {
 // 4. UI RENDERING FUNCTIONS
 function renderRoster() {
     let html = `<tr class="table-primary"><td><b>Sunday Service</b></td><td>8:00 AM</td><td></td></tr>`;
-    html += `<tr class="table-warning"><td><b>Thursday Core Service</b></td><td>5:00 PM</td><td></td></tr>`;
+    html += `<tr class="table-warning"><td><b>Thursday Combined Fellowship</b></td><td>9:00 AM</td><td></td></tr>`;
     html += specialPrograms.map(p => `<tr><td><b>${p.event}</b></td><td>${p.timeDisplay}</td><td class="text-end"> 
     ${currentUser.role==='admin'?`<span class="text-danger fw-bold" style="cursor:pointer" onclick="deleteProgram('${p.id}')">×</span>`:''}</td></tr>`).join('');
     document.getElementById('fullRoster').innerHTML = html;
